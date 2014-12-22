@@ -92,28 +92,31 @@
 
 }
 
-- (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure {
-  LIALinkedInAuthorizationViewController *authorizationViewController = [[LIALinkedInAuthorizationViewController alloc]
-      initWithApplication:
-          self.application
-                  success:^(NSString *code) {
-                    [self hideAuthenticateView];
-                    if (success) {
-                      success(code);
-                    }
-                  }
-                   cancel:^{
-                     [self hideAuthenticateView];
-                     if (cancel) {
-                       cancel();
-                     }
-                   } failure:^(NSError *error) {
-        [self hideAuthenticateView];
-        if (failure) {
-          failure(error);
-        }
-      }];
-  [self showAuthorizationView:authorizationViewController];
+- (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure didDisplayAuthDialog:(void (^)(void))didDisplayAuthDialog {
+    LIALinkedInAuthorizationViewController *authorizationViewController = [[LIALinkedInAuthorizationViewController alloc]
+                                                                           initWithApplication:self.application
+                                                                           success:^(NSString *code) {
+                                                                               [self hideAuthenticateView];
+                                                                               if (success) {
+                                                                                   success(code);
+                                                                               }
+                                                                           }
+                                                                           cancel:^{
+                                                                               [self hideAuthenticateView];
+                                                                               if (cancel) {
+                                                                                   cancel();
+                                                                               }
+                                                                           } failure:^(NSError *error) {
+                                                                               [self hideAuthenticateView];
+                                                                               if (failure) {
+                                                                                   failure(error);
+                                                                               }
+                                                                           } didDisplayAuthDialog:^{
+                                                                               if (didDisplayAuthDialog) {
+                                                                                   didDisplayAuthDialog();
+                                                                               }
+                                                                           }];
+    [self showAuthorizationView:authorizationViewController];
 }
 
 - (void)showAuthorizationView:(LIALinkedInAuthorizationViewController *)authorizationViewController {

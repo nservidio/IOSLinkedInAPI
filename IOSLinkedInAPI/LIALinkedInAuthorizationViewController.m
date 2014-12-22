@@ -32,6 +32,7 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 @property(nonatomic, copy) LIAAuthorizationCodeFailureCallback failureCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeSuccessCallback successCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeCancelCallback cancelCallback;
+@property(nonatomic, copy) LIAAuthorizationCodeDidDisplayAuthDialogCallback didDisplayAuthDialogCallback;
 @property(nonatomic, strong) LIALinkedInApplication *application;
 @end
 
@@ -141,8 +142,11 @@ BOOL handlingRedirectURL;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-	
-	
+
+    if (self.didDisplayAuthDialogCallback) {
+        self.didDisplayAuthDialogCallback();
+    }
+
 	/*fix for the LinkedIn Auth window - it doesn't scale right when placed into
 	 a webview inside of a form sheet modal. If we transform the HTML of the page
 	 a bit, and fix the viewport to 540px (the width of the form sheet), the problem
