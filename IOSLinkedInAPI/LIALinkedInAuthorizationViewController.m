@@ -51,6 +51,7 @@ BOOL handlingRedirectURL;
         self.successCallback = success;
         self.cancelCallback = cancel;
         self.failureCallback = failure;
+        self.didDisplayAuthDialogCallback = didDisplayAuthDialog;
     }
     return self;
 }
