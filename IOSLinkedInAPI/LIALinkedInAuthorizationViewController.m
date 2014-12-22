@@ -43,7 +43,7 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
 BOOL handlingRedirectURL;
 
-- (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure {
+- (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure didDisplayAuthDialog:(LIAAuthorizationCodeDidDisplayAuthDialogCallback)didDisplayAuthDialog {
     self = [super init];
     if (self) {
         self.application = application;

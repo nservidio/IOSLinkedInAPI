@@ -25,9 +25,10 @@
 typedef void(^LIAAuthorizationCodeSuccessCallback)(NSString *code);
 typedef void(^LIAAuthorizationCodeCancelCallback)(void);
 typedef void(^LIAAuthorizationCodeFailureCallback)(NSError *errorReason);
+typedef void(^LIAAuthorizationCodeDidDisplayAuthDialogCallback)(void);
 
 @interface LIALinkedInAuthorizationViewController : UIViewController
 
-- (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure;
+- (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure didDisplayAuthDialog:(LIAAuthorizationCodeDidDisplayAuthDialogCallback)didDisplayAuthDialog;
 
 @end
