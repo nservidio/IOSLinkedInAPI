@@ -105,7 +105,6 @@
                                                                            }
                                                                            cancel:^{
                                                                                [self showCancelAlertWithCancelBlock:cancel];
-                                                                               }
                                                                            } failure:^(NSError *error) {
                                                                                [self hideAuthenticateView];
                                                                                if (failure) {
