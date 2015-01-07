@@ -30,6 +30,8 @@
 @interface LIALinkedInHttpClient ()
 @property(nonatomic, strong) LIALinkedInApplication *application;
 @property(nonatomic, weak) UIViewController *presentingViewController;
+@property(nonatomic, weak) LIALinkedInAuthorizationViewController *authViewController;
+
 @end
 
 @implementation LIALinkedInHttpClient
@@ -102,9 +104,7 @@
                                                                                }
                                                                            }
                                                                            cancel:^{
-                                                                               [self hideAuthenticateView];
-                                                                               if (cancel) {
-                                                                                   cancel();
+                                                                               [self showCancelAlertWithCancelBlock:cancel];
                                                                                }
                                                                            } failure:^(NSError *error) {
                                                                                [self hideAuthenticateView];
@@ -120,6 +120,8 @@
 }
 
 - (void)showAuthorizationView:(LIALinkedInAuthorizationViewController *)authorizationViewController {
+  self.authViewController = authorizationViewController;
+
   if (self.presentingViewController == nil)
     self.presentingViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
 
@@ -136,5 +138,28 @@
   [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)showCancelAlertWithCancelBlock:(void(^)(void))cancel {
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Are you sure"
+                                                                message:@"Are you sure you want to cancel?"
+                                                         preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action) {
+                                                             // DO NOTHING
+                                                         }];
+
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              [self hideAuthenticateView];
+                                                              if (cancel) {
+                                                                  cancel();
+                                                              }
+                                                          }];
+
+    [ac addAction:cancelAction];
+    [ac addAction:confirmAction];
+
+    [self.authViewController presentViewController:ac animated:YES completion:nil];
+}
 
 @end
